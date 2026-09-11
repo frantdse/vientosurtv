@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canal 9 Ushuaia | La TV del Fin del Mundo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-base: #ffffff;
+            --text-main: #111827;
+            --text-muted: #64748b;
+            --cherry-deep: #e83e63;
+            --border-light: rgba(0, 0, 0, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+
+        /* === CEREZOS EN CASCADA FLUIDA === */
+        .cherry-container {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 999;
+            overflow: hidden;
+        }
+
+        .cherry-blossom {
+            position: absolute;
+            top: -15%;
+            background: radial-gradient(circle, #ff8fa3 0%, var(--cherry-deep) 100%);
+            border-radius: 160% 20% 160% 20%;
+            animation: fallAndSway linear infinite;
+            opacity: 0.8;
+            box-shadow: 0 0 15px rgba(232, 62, 99, 0.3);
+        }
+
+        @keyframes fallAndSway {
+            0% { transform: translateY(-10vh) translateX(0px) rotate(0deg); opacity: 0; }
+            15% { opacity: 0.85; }
+            50% { transform: translateY(50vh) translateX(90px) rotate(180deg); }
+            85% { opacity: 0.8; }
+            100% { transform: translateY(110vh) translateX(-60px) rotate(360deg); opacity: 0; }
+        }
+
+        .cherry-blossom:nth-child(1) { left: 3%; width: 34px; height: 23px; animation-duration: 9s; animation-delay: 0s; }
+        .cherry-blossom:nth-child(2) { left: 15%; width: 28px; height: 19px; animation-duration: 12s; animation-delay: 2s; }
+        .cherry-blossom:nth-child(3) { left: 27%; width: 38px; height: 26px; animation-duration: 7s; animation-delay: 1s; }
+        .cherry-blossom:nth-child(4) { left: 40%; width: 30px; height: 20px; animation-duration: 14s; animation-delay: 3s; }
+        .cherry-blossom:nth-child(5) { left: 53%; width: 35px; height: 24px; animation-duration: 10s; animation-delay: 1.5s; }
+        .cherry-blossom:nth-child(6) { left: 66%; width: 25px; height: 17px; animation-duration: 13s; animation-delay: 2.5s; }
+        .cherry-blossom:nth-child(7) { left: 79%; width: 32px; height: 21px; animation-duration: 8s; animation-delay: 0.5s; }
+        .cherry-blossom:nth-child(8) { left: 91%; width: 40px; height: 28px; animation-duration: 11s; animation-delay: 1.8s; }
+
+        /* === HEADER LIMPIO Y ORDENADO === */
+        header {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-light);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-bar {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        .brand-logo {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.7rem;
+            font-weight: 900;
+            color: #111;
+            letter-spacing: -1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand-logo span {
+            background: linear-gradient(135deg, var(--cherry-deep), #ff708f);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 6px;
+            font-size: 0.95rem;
+        }
+
+        .menu-toggle-btn {
+            background: transparent;
+            border: 2px solid var(--text-main);
+            color: var(--text-main);
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.3s;
+        }
+
+        .menu-toggle-btn:hover {
+            background: var(--text-main);
+            color: white;
+        }
+
+        .hamburger-icon {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            width: 16px;
+        }
+
+        .hamburger-icon span {
+            display: block;
+            height: 2px;
+            background: currentColor;
+            width: 100%;
+            border-radius: 2px;
+        }
+
+        .dropdown-menu-drawer {
+            position: absolute;
+            top: calc(100% + 15px);
+            right: 40px;
+            width: 260px;
+            background: white;
+            border: 1px solid var(--border-light);
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+            padding: 20px;
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 1100;
+            animation: fadeInDrawer 0.3s ease;
+        }
+
+        .dropdown-menu-drawer.active {
+            display: flex;
+        }
+
+        @keyframes fadeInDrawer {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .dropdown-menu-drawer a {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--text-main);
+            padding: 10px 15px;
+            border-radius: 8px;
+            transition: 0.2s;
+        }
+
+        .dropdown-menu-drawer a:hover {
+            background: #fff0f3;
+            color: var(--cherry-deep);
+            padding-left: 20px;
+        }
+
+        /* === HERO === */
+        .hero-faro-absolute {
+            width: 100%;
+            height: 85vh;
+            background-image: url('https://files.catbox.moe/1ad2cv.jpg');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .hero-faro-absolute::after {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.75) 100%);
+        }
+
+        .hero-faro-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            padding: 0 20px;
+        }
+
+        .hero-faro-content span {
+            color: #ff8fa3;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            font-size: 0.85rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+        }
+
+        .hero-faro-content h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: white;
+            line-height: 1.15;
+            letter-spacing: -2px;
+            margin-bottom: 20px;
+            text-shadow: 0 4px 25px rgba(0,0,0,0.8);
+        }
+
+        .hero-faro-content p {
+            font-size: 1.2rem;
+            color: #f1f5f9;
+            font-weight: 400;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+        }
+
+        @media (max-width: 768px) {
+            .hero-faro-content h1 { font-size: 2.2rem; }
+            .hero-faro-absolute { height: 70vh; }
+        }
+
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 40px;
+        }
+
+        .section-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--text-main);
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            letter-spacing: -1px;
+        }
+
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border-light);
+        }
+
+        /* Actualidad */
+        .news-raw-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            margin-bottom: 80px;
+        }
+
+        @media (max-width: 768px) {
+            .news-raw-grid { grid-template-columns: 1fr; }
+        }
+
+        .raw-news-item {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            cursor: pointer;
+        }
+
+        .raw-news-img {
+            width: 100%;
+            height: 280px;
+            background-size: cover;
+            background-position: center;
+            background-color: #f1f5f9;
+            transition: 0.5s ease;
+        }
+
+        .raw-news-item:hover .raw-news-img {
+            transform: scale(1.02);
+        }
+
+        .raw-news-meta {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--cherry-deep);
+            letter-spacing: 1px;
+        }
+
+        .raw-news-item h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--text-main);
+            line-height: 1.3;
+        }
+
+        .raw-news-item p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* Clima */
+        .weather-section-clean {
+            margin-bottom: 80px;
+        }
+
+        .weather-clean-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .weather-clean-grid { grid-template-columns: 1fr; }
+        }
+
+        .weather-clean-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 30px 40px;
+            border-bottom: 1px solid var(--border-light);
+            border-top: 1px solid var(--border-light);
+        }
+
+        .weather-clean-info h5 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-main);
+        }
+
+        .weather-clean-info span {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .weather-clean-temp {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.8rem;
+            font-weight: 900;
+            color: var(--cherry-deep);
+            letter-spacing: -2px;
+        }
+
+        /* Colección */
+        .collection-rich-section {
+            margin-top: 40px;
+            margin-bottom: 80px;
+        }
+
+        .collection-rich-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .collection-rich-title h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 900;
+            letter-spacing: -1.5px;
+            color: var(--text-main);
+            margin-bottom: 8px;
+        }
+
+        .collection-rich-title p {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        .collection-rich-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        @media (max-width: 900px) {
+            .collection-rich-grid { grid-template-columns: 1fr; }
+        }
+
+        .collection-poster-card {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            height: 380px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 30px;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transition: 0.4s ease;
+        }
+
+        .collection-poster-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(232, 62, 99, 0.2);
+        }
+
+        .collection-poster-card::after {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 60%, transparent 100%);
+            z-index: 1;
+        }
+
+        .cp-bg {
+            position: absolute; inset: 0;
+            background-size: cover;
+            background-position: center;
+            transition: 0.6s ease;
+        }
+
+        .collection-poster-card:hover .cp-bg {
+            transform: scale(1.05);
+        }
+
+        .cp-1 { background-image: url('https://files.catbox.moe/i7t4lg.jpeg'); }
+        .cp-2 { background-image: url('https://files.catbox.moe/68cumo.jpeg'); }
+        .cp-3 { background-image: url('https://files.catbox.moe/e3dmv8.jpeg'); }
+
+        .collection-poster-content {
+            position: relative;
+            z-index: 2;
+            color: white;
+        }
+
+        .cp-tag {
+            background: var(--cherry-deep);
+            color: white;
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: 20px;
+            letter-spacing: 1px;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .collection-poster-content h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 800;
+            margin-bottom: 6px;
+            line-height: 1.25;
+        }
+
+        .collection-poster-content span {
+            font-size: 0.85rem;
+            color: #cbd5e1;
+        }
+
+        /* Programación */
+        .programming-section {
+            padding: 60px 0;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .prog-table {
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 30px;
+            border: 1px solid var(--border-light);
+        }
+
+        .prog-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 0;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .prog-row:last-child {
+            border-bottom: none;
+        }
+
+        .prog-time {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            color: var(--cherry-deep);
+            font-size: 1.1rem;
+            min-width: 120px;
+        }
+
+        .prog-info h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .prog-info p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* Historia */
+        .history-section {
+            padding: 60px 0;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .history-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        @media (max-width: 768px) {
+            .history-content { grid-template-columns: 1fr; }
+        }
+
+        .history-text p {
+            margin-bottom: 15px;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        .history-card-box {
+            background: #fff0f3;
+            border-left: 5px solid var(--cherry-deep);
+            padding: 30px;
+            border-radius: 0 16px 16px 0;
+        }
+
+        .history-card-box h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: var(--text-main);
+            margin-bottom: 10px;
+        }
+
+        .history-card-box p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        /* Contacto */
+        .contact-section {
+            padding: 60px 0;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .contact-grid { grid-template-columns: 1fr; }
+        }
+
+        .contact-info-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .contact-card-item {
+            background: #f8fafc;
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid var(--border-light);
+        }
+
+        .contact-card-item h5 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            font-size: 1rem;
+            color: var(--text-main);
+            margin-bottom: 5px;
+        }
+
+        .contact-card-item p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .contact-form input, .contact-form textarea {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid var(--border-light);
+            border-radius: 10px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .contact-form input:focus, .contact-form textarea:focus {
+            border-color: var(--cherry-deep);
+        }
+
+        .contact-form button {
+            background: var(--text-main);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 10px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .contact-form button:hover {
+            background: var(--cherry-deep);
+        }
+
+        footer {
+            max-width: 1200px;
+            margin: 60px auto 40px auto;
+            padding: 0 40px;
+            border-top: 1px solid var(--border-light);
+            padding-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cherry-container">
+        <div class="cherry-blossom"></div>
+        <div class="cherry-blossom"></div>
+        <div class="cherry-blossom"></div>
+        <div class="cherry-blossom"></div>
+        <div class="cherry-blossom"></div>
+        <div class="cherry-blossom"></div>
+        <div class="cherry-blossom"></div>
+        <div class="cherry-blossom"></div>
+    </div>
+
+    <header>
+        <div class="nav-bar">
+            <div class="brand-logo">
+                CANAL 9 <span>USHUAIA</span>
+            </div>
+            
+            <button class="menu-toggle-btn" id="menuBtn">
+                <div class="hamburger-icon">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                Menú
+            </button>
+
+            <div class="dropdown-menu-drawer" id="dropdownMenu">
+                <a href="vivo.html" style="color: var(--cherry-deep); font-weight: 900;">🔴 Emisión en Vivo</a>
+                <a href="#inicio" onclick="closeMenu()">Inicio</a>
+                <a href="#actualidad" onclick="closeMenu()">Actualidad Fueguina</a>
+                <a href="#coleccion" onclick="closeMenu()">La Colección</a>
+                <a href="#programacion" onclick="closeMenu()">Programación Oficial</a>
+                <a href="#historia" onclick="closeMenu()">Nuestra Historia</a>
+                <a href="#contacto" onclick="closeMenu()">Contacto / Prensa</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero-faro-absolute" id="inicio">
+        <div class="hero-faro-content">
+            <span>Canal 9 Ushuaia &bull; Tierra del Fuego</span>
+            <h1>¡Bienvenido a un espacio local, cultural e informativo!</h1>
+            <p>La televisión del fin del mundo, transmitiendo directamente desde el místico Canal Beagle.</p>
+        </div>
+    </section>
+
+    <div class="main-container">
+        
+        <div id="actualidad">
+            <h2 class="section-title">Actualidad Fueguina</h2>
+            <div class="news-raw-grid">
+                <div class="raw-news-item">
+                    <div class="raw-news-img" style="background-image: url('https://files.catbox.moe/1ad2cv.jpg');"></div>
+                    <span class="raw-news-meta">Puerto & Cruceros</span>
+                    <h3>Intenso movimiento en el Canal de Beagle por la temporada alta de recaladas</h3>
+                    <p>El puerto de Ushuaia marca récords históricos de visitantes internacionales impulsando el motor comercial de la provincia.</p>
+                </div>
+
+                <div class="raw-news-item">
+                    <div class="raw-news-img" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/4/44/Faro_Les_%C3%89claireurs_01.jpg');"></div>
+                    <span class="raw-news-meta">Ruta Nacional 3</span>
+                    <h3>Obras viales estratégicas mejoran el tránsito hacia Tolhuin y la zona norte</h3>
+                    <p>Nuevos tramos repavimentados y puntos de asistencia integral garantizan viajes seguros a través de la cordillera fueguina.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="weather-section-clean">
+            <h2 class="section-title">Estado del Tiempo</h2>
+            <div class="weather-clean-grid">
+                <div class="weather-clean-card">
+                    <div class="weather-clean-info">
+                        <h5>Ushuaia</h5>
+                        <span>Fin del Mundo &bull; Parcialmente Nublado</span>
+                    </div>
+                    <div class="weather-clean-temp">3°4</div>
+                </div>
+
+                <div class="weather-clean-card">
+                    <div class="weather-clean-info">
+                        <h5>Tolhuin</h5>
+                        <span>Corazón de la Isla &bull; Vientos Leves</span>
+                    </div>
+                    <div class="weather-clean-temp">2°1</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="collection-rich-section" id="coleccion">
+            <div class="collection-rich-header">
+                <div class="collection-rich-title">
+                    <h3>La Colección Exclusiva</h3>
+                    <p>Producciones especiales, documentales y contenido destacado en alta definición.</p>
+                </div>
+            </div>
+
+            <div class="collection-rich-grid">
+                <div class="collection-poster-card">
+                    <div class="cp-bg cp-1"></div>
+                    <div class="collection-poster-content">
+                        <span class="cp-tag">Megaproducción</span>
+                        <h4>MrBeast</h4>
+                        <span>Especiales internacionales y desafíos globales</span>
+                    </div>
+                </div>
+
+                <div class="collection-poster-card">
+                    <div class="cp-bg cp-2"></div>
+                    <div class="collection-poster-content">
+                        <span class="cp-tag">Aventuras</span>
+                        <h4>Araya Vlogs</h4>
+                        <span>Recorridos culturales y rincones del planeta</span>
+                    </div>
+                </div>
+
+                <div class="collection-poster-card">
+                    <div class="cp-bg cp-3"></div>
+                    <div class="collection-poster-content">
+                        <span class="cp-tag">Naturaleza & Estilo</span>
+                        <h4>Stay Wild</h4>
+                        <span>Expediciones extremas y vida al aire libre</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="programming-section" id="programacion">
+            <h2 class="section-title">Programación Oficial</h2>
+            <div class="prog-table">
+                <div class="prog-row">
+                    <div class="prog-time">07:00 - 09:00</div>
+                    <div class="prog-info">
+                        <h4>Despertar Fueguino</h4>
+                        <p>Toda la actualidad, clima y servicios para arrancar el día en el fin del mundo.</p>
+                    </div>
+                </div>
+                <div class="prog-row">
+                    <div class="prog-time">12:30 - 14:00</div>
+                    <div class="prog-info">
+                        <h4>Noticiero Central TDF</h4>
+                        <p>Información general, cobertura periodística local y entrevistas en vivo.</p>
+                    </div>
+                </div>
+                <div class="prog-row">
+                    <div class="prog-time">17:00 - 19:00</div>
+                    <div class="prog-info">
+                        <h4>Horizontes Patagónicos</h4>
+                        <p>Cultura, música regional, documentales y tradiciones de Tierra del Fuego.</p>
+                    </div>
+                </div>
+                <div class="prog-row">
+                    <div class="prog-time">21:00 - 23:00</div>
+                    <div class="prog-info">
+                        <h4>La Colección Estelar</h4>
+                        <p>Emisiones especiales con creadores de contenido, expediciones y grandes documentales.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="history-section" id="historia">
+            <h2 class="section-title">Nuestra Historia</h2>
+            <div class="history-content">
+                <div class="history-text">
+                    <p>Canal 9 Ushuaia nació con el firme propósito de unir a la comunidad de Tierra del Fuego a través de la pantalla, reflejando el pulso cotidiano, el esfuerzo de sus habitantes y la imponente belleza del paisaje austral.</p>
+                    <p>A lo largo de los años, nos hemos consolidado como un puente de identidad y cultura, adaptándonos a las nuevas tecnologías de transmisión para llevar la voz y las imágenes del fin del mundo hacia todos los hogares con el más alto estándar de compromiso periodístico.</p>
+                </div>
+                <div class="history-card-box">
+                    <h4>Tradición e Innovación</h4>
+                    <p>Combinamos décadas de trayectoria televisiva en la región con la incorporación constante de formatos modernos, transmisiones en alta definición y contenidos interactivos.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="contact-section" id="contacto">
+            <h2 class="section-title">Contacto / Prensa</h2>
+            <div class="contact-grid">
+                <div class="contact-info-cards">
+                    <div class="contact-card-item">
+                        <h5>Estudios Centrales</h5>
+                        <p>Av. San Martín 1240, Ushuaia (CP 9410), Tierra del Fuego, Argentina.</p>
+                    </div>
+                    <div class="contact-card-item">
+                        <h5>Correo Electrónico</h5>
+                        <p>contacto@canal9ushuaia.tv / prensa@canal9ushuaia.tv</p>
+                    </div>
+                    <div class="contact-card-item">
+                        <h5>Línea Directa</h5>
+                        <p>+54 (2901) 43-2100 / Canal de Prensa Institucional</p>
+                    </div>
+                </div>
+
+                <form class="contact-form" onsubmit="event.preventDefault(); alert('¡Mensaje enviado con éxito! Nos pondremos en contacto a la brevedad.');">
+                    <input type="text" placeholder="Tu Nombre y Apellido" required>
+                    <input type="email" placeholder="Correo Electrónico" required>
+                    <input type="text" placeholder="Asunto / Motivo de consulta">
+                    <textarea rows="4" placeholder="Escribinos tu mensaje o solicitud de prensa..." required></textarea>
+                    <button type="submit">Enviar Mensaje</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <div><strong>Canal 9 Ushuaia</strong> &bull; Orgullo Fueguino</div>
+        <div>Transmisión Oficial HD</div>
+    </footer>
+
+    <script>
+        const menuBtn = document.getElementById('menuBtn');
+        const dropdownMenu = document.getElementById('dropdownMenu');
+
+        menuBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            dropdownMenu.classList.toggle('active');
+        });
+
+        window.addEventListener('click', () => {
+            if (dropdownMenu.classList.contains('active')) {
+                dropdownMenu.classList.remove('active');
+            }
+        });
+
+        function closeMenu() {
+            dropdownMenu.classList.remove('active');
+        }
+    </script>
+
+</body>
+</html>
