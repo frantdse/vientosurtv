@@ -198,6 +198,16 @@
             border: none;
         }
 
+        .loading-text {
+            color: #ffffff;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
         footer {
             max-width: 1200px;
             margin: 40px auto;
@@ -241,12 +251,9 @@
             </div>
         </div>
 
-        <div class="video-wrapper">
-            <iframe src="https://rumble.com/embed/v7d8uva/?pub=4qidam" 
-                    title="Canal 9 Ushuaia En Vivo" 
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                    allowfullscreen>
-            </iframe>
+        <!-- REPRODUCTOR AUTOMÁTICO DE RUMBLE -->
+        <div class="video-wrapper" id="rumble-vientosur-container">
+            <p class="loading-text" id="loading-vientosur">Cargando señal de Viento Sur TV...</p>
         </div>
     </main>
 
@@ -254,6 +261,39 @@
         <div><strong>Canal 9 Ushuaia</strong> &bull; La TV del Fin del Mundo</div>
         <div>Señal Oficial en Directo</div>
     </footer>
+
+    <!-- SCRIPT DE AUTOMATIZACIÓN DE SEÑAL -->
+    <script>
+      (async function() {
+        const channelUser = 'vientosur';
+        const publisherId = '4qidam';
+
+        try {
+          const response = await fetch(`https://rumble.com/api/Media/Shared/channel_videos?channel=${channelUser}&limit=5`);
+          const data = await response.json();
+
+          if (data && data.length > 0) {
+            // Busca la emisión activa EN VIVO o la más reciente grabada
+            let video = data.find(v => v.is_live === true || v.type === 'live') || data[0];
+            const embedUrl = `https://rumble.com/embed/${video.id}/?pub=${publisherId}`;
+            
+            document.getElementById('rumble-vientosur-container').innerHTML = `
+              <iframe 
+                src="${embedUrl}" 
+                title="Canal 9 Ushuaia En Vivo"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen>
+              </iframe>
+            `;
+          } else {
+            document.getElementById('loading-vientosur').innerText = 'No hay emisiones disponibles en este momento.';
+          }
+        } catch (err) {
+          console.error('Error al obtener la señal:', err);
+          document.getElementById('loading-vientosur').innerText = 'Error al conectar con la señal de Viento Sur TV.';
+        }
+      })();
+    </script>
 
 </body>
 </html>
