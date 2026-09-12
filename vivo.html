@@ -251,28 +251,66 @@
             </div>
         </div>
 
-        <!-- REPRODUCTOR AUTOMÁTICO OFICIAL DE RUMBLE -->
-<div class="video-wrapper" id="rumble-vientosur-container">
-    <div id="rumble_v7d8uva"></div>
-</div>
+        <main class="live-container">
+        <div class="live-header">
+            <div class="live-title-area">
+                <h1>Transmisión en Directo <span class="live-badge">EN VIVO HD</span></h1>
+                <p class="live-description">Señal oficial abierta desde Tierra del Fuego para todo el mundo.</p>
+            </div>
+        </div>
 
-<!-- SCRIPT OFICIAL DE RUMBLE -->
-<script>
-  !function(r,u,m,b,l,e){
-    r._Rumble=b;
-    r[b]||(r[b]=function(){(r[b]._=r[b]._||[]).push(arguments)});
-    if(r[b]._.length==1){
-      l=u.createElement(m);
-      e=u.getElementsByTagName(m)[0];
-      l.async=1;
-      l.src="https://rumble.com/embedJS/u4qidam"+(arguments[1]||"");
-      e.parentNode.insertBefore(l,e);
-    }
-  }(window, document, "script", "Rumble");
+        <div class="video-wrapper" id="rumble-vientosur-container">
+            <p class="loading-text" id="loading-vientosur">Cargando señal de Viento Sur TV...</p>
+        </div>
+    </main>
 
-  // Este script reproduce la señal y se actualiza desde tu panel de Rumble
-  Rumble("play", {"video":"v7d8uva","div":"rumble_v7d8uva"});
-</script>
+    <footer>
+        <div><strong>Canal 9 Ushuaia</strong> &bull; La TV del Fin del Mundo</div>
+        <div>Señal Oficial en Directo</div>
+    </footer>
+
+    <!-- AUTOMATIZACIÓN DEFINITIVA SIN BLOQUEOS DE RUMBLE -->
+    <script>
+      (async function() {
+        const channelUser = 'vientosur';
+        const publisherId = '4qidam';
+        
+        // Usamos un proxy para saltar el bloqueo CORS de Rumble
+        const apiUrl = `https://api.corsproxy.io/?url=${encodeURIComponent(`https://rumble.com/api/Media/Shared/channel_videos?channel=${channelUser}&limit=5`)}`;
+
+        try {
+          const response = await fetch(apiUrl);
+          const data = await response.json();
+
+          if (data && data.length > 0) {
+            // 1. Busca si hay alguna transmisión que esté EN VIVO actualmente
+            let video = data.find(v => v.is_live === true || v.type === 'live');
+            
+            // 2. Si NO hay vivo, agarra automáticamente el último video subido/grabado
+            if (!video) {
+              video = data[0];
+            }
+
+            // Construye el iframe dinámicamente con su ID de monetización
+            const embedUrl = `https://rumble.com/embed/${video.id}/?pub=${publisherId}`;
+            
+            document.getElementById('rumble-vientosur-container').innerHTML = `
+              <iframe 
+                src="${embedUrl}" 
+                title="Canal 9 Ushuaia En Vivo"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen>
+              </iframe>
+            `;
+          } else {
+            document.getElementById('loading-vientosur').innerText = 'No se encontraron emisiones disponibles.';
+          }
+        } catch (err) {
+          console.error('Error al detectar la transmisión:', err);
+          document.getElementById('loading-vientosur').innerText = 'No se pudo conectar automáticamente. Reintente en unos momentos.';
+        }
+      })();
+    </script>
 
 </body>
 </html>
