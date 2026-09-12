@@ -251,16 +251,8 @@
             </div>
         </div>
 
-        <main class="live-container">
-        <div class="live-header">
-            <div class="live-title-area">
-                <h1>Transmisión en Directo <span class="live-badge">EN VIVO HD</span></h1>
-                <p class="live-description">Señal oficial abierta desde Tierra del Fuego para todo el mundo.</p>
-            </div>
-        </div>
-
         <div class="video-wrapper" id="rumble-vientosur-container">
-            <p class="loading-text" id="loading-vientosur">Cargando señal de Viento Sur TV...</p>
+            <p class="loading-text" id="loading-vientosur">Conectando con Viento Sur TV...</p>
         </div>
     </main>
 
@@ -269,45 +261,47 @@
         <div>Señal Oficial en Directo</div>
     </footer>
 
-    <!-- AUTOMATIZACIÓN DEFINITIVA SIN BLOQUEOS DE RUMBLE -->
+    <!-- SCRIPT DEFINITIVO VÍA FEEDS DE RUMBLE -->
     <script>
       (async function() {
-        const channelUser = 'vientosur';
         const publisherId = '4qidam';
         
-        // Usamos un proxy para saltar el bloqueo CORS de Rumble
-        const apiUrl = `https://api.corsproxy.io/?url=${encodeURIComponent(`https://rumble.com/api/Media/Shared/channel_videos?channel=${channelUser}&limit=5`)}`;
+        // Feed RSS oficial del usuario vientosur convertido a JSON
+        const rssFeedUrl = 'https://rumble.com/user/vientosur/rss';
+        const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssFeedUrl)}`;
 
         try {
           const response = await fetch(apiUrl);
           const data = await response.json();
 
-          if (data && data.length > 0) {
-            // 1. Busca si hay alguna transmisión que esté EN VIVO actualmente
-            let video = data.find(v => v.is_live === true || v.type === 'live');
+          if (data.status === 'ok' && data.items && data.items.length > 0) {
+            // Se toma la publicación más reciente en el canal
+            const ultimoVideo = data.items[0];
             
-            // 2. Si NO hay vivo, agarra automáticamente el último video subido/grabado
-            if (!video) {
-              video = data[0];
-            }
+            // Se extrae la ID del video desde el enlace oficial (ej: .../v7ffcgk-viento-sur...)
+            const match = ultimoVideo.link.match(/\/([a-z0-9]+)-/i);
+            const videoId = match ? match[1] : null;
 
-            // Construye el iframe dinámicamente con su ID de monetización
-            const embedUrl = `https://rumble.com/embed/${video.id}/?pub=${publisherId}`;
-            
-            document.getElementById('rumble-vientosur-container').innerHTML = `
-              <iframe 
-                src="${embedUrl}" 
-                title="Canal 9 Ushuaia En Vivo"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowfullscreen>
-              </iframe>
-            `;
+            if (videoId) {
+              const embedUrl = `https://rumble.com/embed/${videoId}/?pub=${publisherId}`;
+              
+              document.getElementById('rumble-vientosur-container').innerHTML = `
+                <iframe 
+                  src="${embedUrl}" 
+                  title="Canal 9 Ushuaia En Vivo"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowfullscreen>
+                </iframe>
+              `;
+            } else {
+              document.getElementById('loading-vientosur').innerText = 'No se pudo obtener el identificador de la transmisión.';
+            }
           } else {
-            document.getElementById('loading-vientosur').innerText = 'No se encontraron emisiones disponibles.';
+            document.getElementById('loading-vientosur').innerText = 'No hay emisiones registradas en el canal.';
           }
         } catch (err) {
-          console.error('Error al detectar la transmisión:', err);
-          document.getElementById('loading-vientosur').innerText = 'No se pudo conectar automáticamente. Reintente en unos momentos.';
+          console.error('Error al conectar:', err);
+          document.getElementById('loading-vientosur').innerText = 'Error al cargar la señal. Reintente más tarde.';
         }
       })();
     </script>
