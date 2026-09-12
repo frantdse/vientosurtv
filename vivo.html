@@ -261,50 +261,26 @@
         <div>Señal Oficial en Directo</div>
     </footer>
 
-    <!-- SCRIPT DEFINITIVO VÍA FEEDS DE RUMBLE -->
-    <script>
-      (async function() {
-        const publisherId = '4qidam';
-        
-        // Feed RSS oficial del usuario vientosur convertido a JSON
-        const rssFeedUrl = 'https://rumble.com/user/vientosur/rss';
-        const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssFeedUrl)}`;
+   <div class="video-wrapper">
+    <div id="rumble_vientosur"></div>
+</div>
 
-        try {
-          const response = await fetch(apiUrl);
-          const data = await response.json();
+<script>
+  !function(r,u,m,b,l,e){
+    r._Rumble=b;
+    r[b]||(r[b]=function(){(r[b]._=r[b]._||[]).push(arguments)});
+    if(r[b]._.length==1){
+      l=u.createElement(m);
+      e=u.getElementsByTagName(m)[0];
+      l.async=1;
+      l.src="https://rumble.com/embedJS/u4qidam"+(arguments[1]||"");
+      e.parentNode.insertBefore(l,e);
+    }
+  }(window, document, "script", "Rumble");
 
-          if (data.status === 'ok' && data.items && data.items.length > 0) {
-            // Se toma la publicación más reciente en el canal
-            const ultimoVideo = data.items[0];
-            
-            // Se extrae la ID del video desde el enlace oficial (ej: .../v7ffcgk-viento-sur...)
-            const match = ultimoVideo.link.match(/\/([a-z0-9]+)-/i);
-            const videoId = match ? match[1] : null;
-
-            if (videoId) {
-              const embedUrl = `https://rumble.com/embed/${videoId}/?pub=${publisherId}`;
-              
-              document.getElementById('rumble-vientosur-container').innerHTML = `
-                <iframe 
-                  src="${embedUrl}" 
-                  title="Canal 9 Ushuaia En Vivo"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowfullscreen>
-                </iframe>
-              `;
-            } else {
-              document.getElementById('loading-vientosur').innerText = 'No se pudo obtener el identificador de la transmisión.';
-            }
-          } else {
-            document.getElementById('loading-vientosur').innerText = 'No hay emisiones registradas en el canal.';
-          }
-        } catch (err) {
-          console.error('Error al conectar:', err);
-          document.getElementById('loading-vientosur').innerText = 'Error al cargar la señal. Reintente más tarde.';
-        }
-      })();
-    </script>
+  // Al abrir vivo en Rumble con la misma cuenta, la plataforma enlaza la señal aquí
+  Rumble("play", {"video":"v7ffcgk","div":"rumble_vientosur"});
+</script>
 
 </body>
 </html>
